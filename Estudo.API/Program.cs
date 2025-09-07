@@ -48,6 +48,10 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 builder.Services.AddAuthorization();
+builder.Services
+    .AddGraphQLServer()
+    .AddQueryType<Estudo.API.GraphQL.Query>()
+    .AddMutationType<Estudo.API.GraphQL.Mutation>();
 
 var app = builder.Build(); // Constrói a aplicação com as configurações definidas
 
@@ -65,6 +69,9 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection(); // Redireciona todas as requisições HTTP para HTTPS
 app.UseAuthentication(); // Adiciona o middleware de autenticação JWT
 app.UseAuthorization(); // Adiciona o middleware de autorização
+
+// Endpoint GraphQL
+app.MapGraphQL("/graphql");
 
 // Registra endpoints públicos e protegidos de forma centralizada
 EndpointAuthorizationExtensions.RegisterProtectedEndpoints(app);
