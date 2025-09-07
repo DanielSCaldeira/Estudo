@@ -7,15 +7,15 @@ namespace Estudo.API.Configuration
         {
             var configuration = app.Configuration;
             // Grupo de clientes protegido
-            var clientes = app.MapGroup("/clientes").RequireAuthorization();
+            var clientes = app.MapGroup("/clientes").RequireAuthorization().WithTags("Clientes");
             ClienteController.RegisterEndpoints(clientes);
 
             // Grupo de pedidos protegido
-            var pedidos = app.MapGroup("/pedidos").RequireAuthorization();
+            var pedidos = app.MapGroup("/pedidos").RequireAuthorization().WithTags("Pedidos");
             PedidoController.RegisterEndpoints(pedidos);
 
             // Grupo de autenticação (sem RequireAuthorization)
-            var auth = app.MapGroup("/auth");
+            var auth = app.MapGroup("/auth").WithTags("Autenticação");
             AutenticarController.RegisterEndpoints(auth, configuration);
         }
     }

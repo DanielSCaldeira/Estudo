@@ -19,7 +19,7 @@ builder.Services.AddJwtAuthentication(
 );
 
 // Adiciona serviços ao container de dependências. Aqui, o Swagger é configurado para documentação da API.
-builder.Services.AddEndpointsApiExplorer(); // Adiciona suporte à documentação de endpoints
+builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
     options.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
@@ -29,7 +29,7 @@ builder.Services.AddSwaggerGen(options =>
         Scheme = "Bearer",
         BearerFormat = "JWT",
         In = Microsoft.OpenApi.Models.ParameterLocation.Header,
-        Description = "Insira o token JWT no formato: Bearer {seu token}"
+        Description = "Informe o token Bearer"
     });
 
     options.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
@@ -55,7 +55,11 @@ var app = builder.Build(); // Constrói a aplicação com as configurações definida
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger(); // Gera o documento Swagger
-    app.UseSwaggerUI(); // Exibe a interface Swagger UI
+    app.UseSwaggerUI(options =>
+    {
+        options.DocExpansion(Swashbuckle.AspNetCore.SwaggerUI.DocExpansion.None); // Mostra menu lateral, um grupo expandido por vez
+        // options.DefaultModelsExpandDepth(-1); // Descomente para ocultar modelos de schemas
+    });
 }
 
 app.UseHttpsRedirection(); // Redireciona todas as requisições HTTP para HTTPS

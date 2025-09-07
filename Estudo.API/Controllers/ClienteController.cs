@@ -8,7 +8,9 @@ public static class ClienteController
     {
         var service = new ClienteService();
         // Todos os endpoints exigem autenticação JWT
-        group.MapGet("/", () => service.Listar()).RequireAuthorization();
+        group.MapGet("/", () => 
+            service.Listar()
+        ).RequireAuthorization();
         group.MapGet("/{id}", (int id) => service.BuscarPorId(id)).RequireAuthorization();
         group.MapPost("/", (Cliente cliente) => service.Adicionar(cliente)).RequireAuthorization();
         group.MapPut("/{id}", (int id, Cliente cliente) => {

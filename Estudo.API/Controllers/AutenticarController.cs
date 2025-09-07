@@ -27,7 +27,7 @@ public static class AutenticarController
                     audience: audience,
                     secretKey: secretKey
                 );
-                return Results.Ok(new { token });
+                return Results.Ok(token);
             }
             return Results.Unauthorized();
         });

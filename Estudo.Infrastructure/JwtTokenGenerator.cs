@@ -28,7 +28,7 @@ namespace Estudo.Infrastructure
                 issuer: issuer,           // Quem emite o token
                 audience: audience,       // Quem pode consumir o token
                 claims: claims,           // Informações do usuário
-                expires: DateTime.Now.AddHours(1), // Tempo de expiração do token
+                expires: DateTime.Now.AddDays(1), // Tempo de expiração do token (1 dia)
                 signingCredentials: creds // Credenciais de assinatura
             );
 
