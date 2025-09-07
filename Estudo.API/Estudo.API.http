@@ -1,0 +1,6 @@
+@Estudo.API_HostAddress = http://localhost:5034
+
+GET {{Estudo.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
