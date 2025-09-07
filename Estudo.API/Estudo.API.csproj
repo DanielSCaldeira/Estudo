@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="12.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.8" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.4" />
   </ItemGroup>
@@ -15,6 +16,7 @@
     <ProjectReference Include="..\Estudo.Model\Estudo.Model.csproj" />
     <ProjectReference Include="..\Estudo.Service\Estudo.Service.csproj" />
     <ProjectReference Include="..\Estudo.Infrastructure\Estudo.Infrastructure.csproj" />
+    <ProjectReference Include="..\Estudo.DTO\Estudo.DTO.csproj" />
   </ItemGroup>
 
 </Project>
