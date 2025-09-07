@@ -9,13 +9,15 @@ namespace Estudo.Infrastructure
     public static class JwtTokenGenerator
     {
         // Método estático para gerar um token JWT
-        public static string GerarToken(string usuario, string role, string issuer, string audience, string secretKey)
+        public static string GerarToken(int id, string usuario, string email, string role, string issuer, string audience, string secretKey)
         {
             // Cria um array de claims (informações do usuário e permissões)
             var claims = new[]
             {
-                new Claim(ClaimTypes.Name, usuario), // Adiciona o nome do usuário como claim
-                new Claim(ClaimTypes.Role, role)     // Adiciona o papel (role) do usuário como claim
+                new Claim(ClaimTypes.NameIdentifier, id.ToString()), // Adiciona o ID do usuário como claim
+                new Claim(ClaimTypes.Name, usuario),                // Adiciona o nome do usuário como claim
+                new Claim(ClaimTypes.Email, email),                 // Adiciona o email do usuário como claim
+                new Claim(ClaimTypes.Role, role)                   // Adiciona o papel (role) do usuário como claim
             };
 
             // Cria a chave de segurança a partir da string secreta

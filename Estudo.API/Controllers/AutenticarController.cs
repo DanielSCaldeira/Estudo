@@ -20,14 +20,21 @@ public static class AutenticarController
         {
             if (login.Usuario == "admin" && login.Senha == "123")
             {
+                // Exemplo fixo, substitua por busca real do usuário se necessário
+                var id = 1;
+                var nome = "admin";
+                var email = "admin@email.com";
+                var role = "Admin";
                 var token = JwtTokenGenerator.GerarToken(
-                    usuario: login.Usuario,
-                    role: "Admin",
+                    id: id,
+                    usuario: nome,
+                    email: email,
+                    role: role,
                     issuer: issuer,
                     audience: audience,
                     secretKey: secretKey
                 );
-                return Results.Ok(token);
+                return Results.Ok(new { token });
             }
             return Results.Unauthorized();
         });
@@ -35,9 +42,11 @@ public static class AutenticarController
         // Endpoint para recuperar informações do token
         group.MapGet("/me", [Authorize] (ClaimsPrincipal user) =>
         {
+            var id = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             var nome = user.Identity?.Name;
+            var email = user.FindFirst(ClaimTypes.Email)?.Value;
             var role = user.FindFirst(ClaimTypes.Role)?.Value;
-            return Results.Ok(new { nome, role });
+            return Results.Ok(new { id, nome, email, role });
         });
 
         // Endpoint para atualizar/renovar o token
@@ -47,10 +56,14 @@ public static class AutenticarController
             {
                 var handler = new JwtSecurityTokenHandler();
                 var jwtToken = handler.ReadJwtToken(refresh.Token);
-                var usuario = jwtToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value ?? "";
+                var id = jwtToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value ?? "";
+                var nome = jwtToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value ?? "";
+                var email = jwtToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value ?? "";
                 var role = jwtToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value ?? "";
                 var novoToken = JwtTokenGenerator.GerarToken(
-                    usuario: usuario,
+                    id: int.TryParse(id, out var idInt) ? idInt : 0,
+                    usuario: nome,
+                    email: email,
                     role: role,
                     issuer: issuer,
                     audience: audience,
